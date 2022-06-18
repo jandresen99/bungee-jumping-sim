@@ -1,4 +1,3 @@
-import numpy as np
 import os
 import pandas as pd
 
@@ -62,11 +61,12 @@ def main():
     wn = 0
 
     h = 0.1
+    i = 1000
     n = 0
 
     print("n:", n, "| un:", un, "| vn:", vn, "| wn:", wn)
 
-    while n < 1000:
+    while n < i:
         n += 1
 
         un1 = u_n1(un, vn, h)
