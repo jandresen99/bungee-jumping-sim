@@ -1,29 +1,88 @@
 import numpy as np
+import os
+import pandas as pd
 
-def get_hs():
-    h = [0.4, 0.2, 0.1]
-    return h
+NP = 102707
+g = 9.81
+L0 = (((0.1/10000) * (NP - 100000)) + 0.25) * 150
+m = (40/10000) * (NP - 100000) + 50
+k1 = (10/10000) * (NP - 100000) + 40
 
-def y(t):
-    yt = (2*np.exp(-t))+(t**2)-2
-    return np.float32(yt)
 
-def yp(y, t):
-    yp = (-y) + (t**2) + (2*t) -2
-    return np.float32(yp)
+def write_to_excel(rows):
+    new_sheet = {}
+    for i in range(len(rows[0])):
+        column_name = rows[0][i]
+        data = []
+        for row in rows:
+            data.append(row[i])
 
-def euler(uo, n, h):
-    u = uo + (h*yp(uo,n*h))
-    return np.float32(u)
+        new_sheet[column_name] = data
+
+    new_df = pd.DataFrame(new_sheet)
+    new_df = new_df.iloc[1:, :]
+
+    filename = 'datos.xlsx'
+    desktop = os.path.join(os.path.expanduser("~"), "Downloads")
+    filePath = os.path.join(desktop, filename)
+    writer = pd.ExcelWriter(filePath, engine='xlsxwriter')
+
+    new_df.to_excel(writer)
+
+    writer.save()
+
+
+def u_n1(un, vn, h):
+    un1 = un + (h * vn)
+    return un1
+
+
+def v_n1(un, vn, h):
+    if un >= L0:
+        vn1 = vn + (h * (g - ((k1 * (un - L0))/m)))
+    else:
+        vn1 = vn + (h * g)
+
+    return vn1
+
+
+def w_n1(un):
+    if un >= L0:
+        wn1 = (g - ((k1 * (un - L0))/m))
+    else:
+        wn1 = g
+
+    return wn1
+
 
 def main():
-    h = get_hs()
-    for i in range(len(h)):
-        u = 0
-        n = 0
-        while n < 11:
-            u = euler(u, n, h[i])
-            print("h: "+str(h[i]), "n: "+ str(n+1),"t(n): "+str(n*h[i]),"u" + str(n+1) + ": " + str(u))
-            n += 1
+    rows = [["N", "h", "U0", "V0", "W0"]]
+    un = 0
+    vn = 0
+    wn = 0
+
+    h = 0.1
+    n = 0
+
+    print("n:", n, "| un:", un, "| vn:", vn, "| wn:", wn)
+
+    while n < 1000:
+        n += 1
+
+        un1 = u_n1(un, vn, h)
+        vn1 = v_n1(un1, vn, h)
+        wn1 = w_n1(un)
+
+        un = un1
+        vn = vn1
+        wn = wn1
+
+        rows.append([n, h, un, vn, wn])
+
+        print("n:", n, "| un:", un, "| vn:", vn, "| wn:", wn)
+
+    write_to_excel(rows)
+
+
 
 main()
