@@ -8,7 +8,6 @@ m = 23.948
 k1 = (10/10000) * (NP - 100000) + 40
 k2 = 0.55
 
-
 def write_to_excel(rows):
     new_sheet = {}
     for i in range(len(rows[0])):
