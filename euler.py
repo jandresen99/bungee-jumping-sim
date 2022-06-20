@@ -1,11 +1,16 @@
 import os
 import pandas as pd
 
-NP = 102707
+NP = 93487
 g = 9.81
-L0 = (((0.1/10000) * (NP - 100000)) + 0.25) * 150
-m = (40/10000) * (NP - 100000) + 50
-k1 = (10/10000) * (NP - 100000) + 40
+L0 = 27.7305
+m = 23.948
+k1 = 33.487
+
+
+#L0 = (((0.1/10000) * (NP - 100000)) + 0.25) * 150
+#m = (40/10000) * (NP - 100000) + 50
+#k1 = (10/10000) * (NP - 100000) + 40
 
 
 def write_to_excel(rows):
@@ -55,15 +60,19 @@ def w_n1(un):
 
 
 def main():
-    rows = [["N", "h", "U0", "V0", "W0"]]
+    rows = [["N", "h", "un", "vn", "wn"]]
     un = 0
     vn = 0
     wn = 0
 
-    h = 0.1
+    h = 1
     i = 1000
     n = 0
 
+    y_lim = 0
+    a_lim = 0
+
+    rows.append([n, h, un, vn, wn])
     print("n:", n, "| un:", un, "| vn:", vn, "| wn:", wn)
 
     while n < i:
@@ -77,9 +86,15 @@ def main():
         vn = vn1
         wn = wn1
 
+        if un > y_lim:
+            y_lim = un
+            a_lim = wn
+
         rows.append([n, h, un, vn, wn])
 
         print("n:", n, "| un:", un, "| vn:", vn, "| wn:", wn)
+
+    print("Y lim:", y_lim, "| A lim:", a_lim)
 
     write_to_excel(rows)
 

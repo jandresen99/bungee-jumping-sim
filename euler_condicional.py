@@ -56,7 +56,7 @@ def w_n1(un):
 
 
 def main():
-    rows = [["N", "h", "U0", "V0", "W0"]]
+    rows = [["N", "h", "un", "vn", "wn"]]
     un = 0
     vn = 0
     wn = 0
@@ -73,6 +73,7 @@ def main():
     u_max = 0
     a_max = 0
 
+    rows.append([n, h, un, vn, wn])
     #print("n:", n, "| un:", un, "| vn:", vn, "| wn:", wn)
 
     while n < i:
