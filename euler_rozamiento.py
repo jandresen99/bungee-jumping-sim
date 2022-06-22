@@ -1,14 +1,16 @@
 import os
 import pandas as pd
 
-NP = 93487
+NP = 103958
 g = 9.81
-L0 = (((0.1/10000) * (NP - 100000)) + 0.25) * 150
-m = (40/10000) * (NP - 100000) + 50
+L0 = 43.437
+m = 65.832
 k1 = (10/10000) * (NP - 100000) + 40
-k2 = 0.78
-c1 = (2/10000) * (NP - 100000) + 3
+k2 = 0.80
+c1 = 3.7916
 c2 = 1.5
+
+print(c1)
 
 def write_to_excel(rows):
     new_sheet = {}
@@ -116,4 +118,4 @@ def main():
     write_to_excel(rows)
 
 
-main()
+#main()

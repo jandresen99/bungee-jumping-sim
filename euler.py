@@ -1,11 +1,11 @@
 import os
 import pandas as pd
 
-NP = 93487
+NP = 103958
 g = 9.81
-L0 = 27.7305
-m = 23.948
-k1 = 33.487
+L0 = 43.437
+m = 65.832
+k1 = 43.958
 
 
 #L0 = (((0.1/10000) * (NP - 100000)) + 0.25) * 150
@@ -97,7 +97,6 @@ def main():
     print("Y lim:", y_lim, "| A lim:", a_lim)
 
     write_to_excel(rows)
-
 
 
 main()
