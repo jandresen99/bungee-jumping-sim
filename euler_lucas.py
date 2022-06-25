@@ -3,11 +3,11 @@ import pandas as pd
 
 NP = 103958
 g = 9.81
-L0 = (((0.1/10000) * (NP - 100000)) + 0.25) * 150
-m = (40/10000) * (NP - 100000) + 50
-k1 = (10/10000) * (NP - 100000) + 40
+L0 = (((0.1 / 10000) * (NP - 100000)) + 0.25) * 150
+m = (40 / 10000) * (NP - 100000) + 50
+k1 = (10 / 10000) * (NP - 100000) + 40
 k2 = 0.66
-c1 = (2/10000) * (NP - 100000) + 3
+c1 = (2 / 10000) * (NP - 100000) + 3
 c2 = 1.5
 
 
@@ -41,18 +41,42 @@ def u_n1(un, vn, h):
 
 def v_n1(un, vn, h):
     if un >= L0:
-        vn1 = vn + (h * (g - (((k1 * ((un - L0)**k2)) - (c1*(abs(vn)**c2)))/m)))
+
+        if vn >= 0:
+            vn1 = vn + h * (g - (k1 * (((un - L0) ** k2) / m)) - ((c1 * (abs(vn)) ** c2) / m))
+
+        else:
+
+            vn1 = vn + h * (g - (k1 * (((un - L0) ** k2) / m)) + ((c1 * (abs(vn)) ** c2) / m))
+
     else:
-        vn1 = vn + (h * (g - ((c1*(abs(vn)**c2))/m)))
+
+        if vn >= 0:
+            vn1 = vn + h * (g - ((c1 * (abs(vn)) ** c2) / m))
+
+        else:
+
+            vn1 = vn + h * (g + ((c1 * (abs(vn)) ** c2) / m))
 
     return vn1
 
 
 def w_n1(un, vn):
     if un >= L0:
-        wn1 = (g - (((k1 * ((un - L0)**k2)) - (c1*(abs(vn)**c2)))/m))
+        if vn >= 0:
+            wn1 = g - (k1 * (((un - L0) ** k2) / m)) - ((c1 * (abs(vn)) ** c2) / m)
+
+        else:
+            wn1 = g - (k1 * (((un - L0) ** k2) / m)) + ((c1 * (abs(vn)) ** c2) / m)
+
     else:
-        wn1 = g
+
+        if vn >= 0:
+            wn1 = g - ((c1 * (abs(vn)) ** c2) / m)
+
+        else:
+
+            wn1 = g + ((c1 * (abs(vn)) ** c2) / m)
 
     return wn1
 
