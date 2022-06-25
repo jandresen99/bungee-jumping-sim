@@ -27,8 +27,7 @@ def write_to_excel(rows):
     new_df = new_df.iloc[1:, :]
 
     filename = 'datos.xlsx'
-    desktop = os.path.join(os.path.expanduser("~"), "Downloads")
-    filePath = os.path.join(desktop, filename)
+    filePath = os.path.join(filename, filename)
     writer = pd.ExcelWriter(filePath, engine='xlsxwriter')
 
     new_df.to_excel(writer)
